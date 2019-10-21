@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
+        integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
+        crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/regular.js"
+        integrity="sha384-t7yHmUlwFrLxHXNLstawVRBMeSLcXTbQ5hsd0ifzwGtN7ZF7RZ8ppM7Ldinuoiif"
+        crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
+        integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"></script> -->
+
+    <title>空氣品質</title>
+</head>
+
+<body>
+    <div class="col-md-9 post">
+        <h1 class="mt-0 text-muted">各地空氣品質</h1>
+
+
+        <div id="app">
+            <select name="" id="" class="form-control mb-3" v-model="filter">
+                <option value="all" disabled>--- 請選擇城市 ---</option>
+                <option v-for="county in location"> {{ county }} </option>
+            </select>
+
+            <h4>關注城市</h4>
+            <div class="card-columns">
+                <card-update v-for="(item,key) in filterFavorite" :carddata="item" :key="item.SiteName"
+                    @add="removeFavorite">
+                    <template slot="icon">
+                        <i class="fas fa-star"></i>
+                    </template>
+                </card-update>
+            </div>
+
+            <hr>
+            <div class="card-columns">
+                <card-update v-for="(item ,key) in filterData" :carddata="item" :key="item.SiteName" @add="addFavorite">
+                </card-update>
+            </div>
+        </div>
+
+
+
+        <script type="text/x-template" id="cardUpdate">
+            <div class="card" :class="cardColor">
+            <div class="card-header"> {{ carddata.County}} - {{carddata.SiteName}}
+            <a href="#" class="float-right" @click.prevent="addFavorite">
+              <slot name="icon">
+                  <i class="far fa-star"></i>
+              </slot>
+              
+            </a>
+            </div>
+            <div class="card-body">
+            <ul class="list-unstyled">
+              <li>AQI 指數: {{ carddata.AQI }} </li>
+              <li>PM2.5: {{ carddata['PM2.5'] }}</li>
+              <li>說明: {{ carddata.Status }} </li>
+            </ul>
+          {{ carddata.PublishTime }}
+          </div>
+        </div>
+        </script>
+
+
+        <style>
+            .status-aqi2 {
+                background-color: #ffff00;
+            }
+
+            .status-aqi3 {
+                background-color: #ff7e00;
+            }
+
+            .status-aqi4 {
+                background-color: #ff0000;
+            }
+
+            .status-aqi5 {
+                background-color: #8f3f97;
+            }
+
+            .status-aqi6 {
+                background-color: #7e0023;
+            }
+
+            .status-aqi7 {
+                background-color: #99FF33;
+            }
+        </style>
+
+    </div>
+    <script src="js/all.js"></script>
+</body>
+
+</html>
